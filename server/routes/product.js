@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const multer = require('multer')
+const { Product } = require('../models/Product')
 
 
 //=================================
@@ -30,6 +31,15 @@ router.post('/image', (req,res) => {
         //console.log(res)
         return res.json({ success: true, filePath:res.req.file.path, fileName: res.req.file.filename})
     })
+})
+
+router.post('/', (req,res) => {
+ // saving data to DB
+  const product = new Product(req.body)
+  product.save((err) => {
+    if(err) return res.status(400).json({success: false, err})
+    return res.status(200).json({success:true})
+  })
 })
 
 

@@ -4,7 +4,7 @@ import { Icon } from "antd";
 import axios from "axios";
 import { useState } from "react";
 
-function FileUpload() {
+function FileUpload(props) {
   const [Images, setImages] = useState([]);
   const dropHandeler = (files) => {
     let formData = new FormData();
@@ -14,11 +14,22 @@ function FileUpload() {
       if (res.data.success) {
         console.log(res.data);
         setImages([...Images, res.data.filePath]);
+        props.refreshFunction([...Images, res.data.filePath])
       } else {
         alert("Fail to upload image");
       }
     });
   };
+
+  const deleteHandeler = (image) => {
+    const curIndex = Images.indexOf(image)
+   
+
+    let newImages = [...Images]
+    newImages.splice(curIndex,1)
+    setImages(newImages)
+    props.refreshFunction(newImages)
+  }
 
   return (
     <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -52,7 +63,7 @@ function FileUpload() {
         }}
       >
         {Images.map((image, index) => (
-          <div key={index}>
+          <div onClick={()=>deleteHandeler(image)} key={index}>
             <img
               style={{ width:"300px", height:"100%"}}
               src={`http://localhost:5000/${image}`}
