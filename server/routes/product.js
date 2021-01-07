@@ -42,6 +42,18 @@ router.post('/', (req,res) => {
   })
 })
 
+router.post('/products', (req,res) => {
+  //get all products from DB
+  Product.find()
+  .populate("writer")
+  .exec((err,productInfo)=>{
+    if (err) { 
+      return res.status(400).json({success: false, err})
+    } 
+    return res.status(200).json({success: true, productInfo})
+  })
+ })
+
 
 
 
