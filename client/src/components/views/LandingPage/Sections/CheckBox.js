@@ -16,7 +16,7 @@ function CheckBox(props) {
       newChecked.splice(currentIndex, 1);
     }
     setChecked(newChecked);
-    props.continentFilter(newChecked)
+    props.handleFilter(newChecked)
   };
 
   const renderCheckBoxList = () =>
